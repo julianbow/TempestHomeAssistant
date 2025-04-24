@@ -1,0 +1,121 @@
+{
+    "config": {
+        "step": {
+            "user": {
+                "description": "Set up a Tempest Forecast Station",
+                "data": {
+                    "api_token": "Personal API token",
+                    "host": "[%key:common::config_flow::data::host%]"
+                },
+                "data_description": {
+                    "host": "Hostname or IP address of your Tempest device."
+                }
+            },
+            "reauth_confirm": {
+                "description": "Reauthenticate with Tempest",
+                "data": {
+                    "api_token": "[%key:component::tempest_test::config::step::user::data::api_token%]"
+                }
+            }
+        },
+        "error": {
+            "address_in_use": "Unable to open local UDP port 50222.",
+            "cannot_connect": "[%key:common::config_flow::error::cannot_connect%]",
+            "invalid_api_key": "[%key:common::config_flow::error::invalid_api_key%]",
+            "no_device_found": "[%key:common::config_flow::abort::no_devices_found%]"
+        },
+        "abort": {
+            "already_configured": "[%key:common::config_flow::abort::already_configured_service%]",
+            "reauth_successful": "[%key:common::config_flow::abort::reauth_successful%]",
+            "single_instance_allowed": "[%key:common::config_flow::abort::single_instance_allowed%]"
+        }
+    },
+    "entity": {
+        "sensor": {
+            "air_density": {
+                "name": "Air density"
+            },
+            "air_temperature": {
+                "name": "Air temperature"
+            },
+            "battery_voltage": {
+                "name": "Battery voltage"
+            },
+            "barometric_pressure": {
+                "name": "Pressure barometric"
+            },
+            "sea_level_pressure": {
+                "name": "Pressure sea level"
+            },
+            "dew_point": {
+                "name": "Dew point"
+            },
+            "lightning_average_distance": {
+                "name": "Lightning average distance"
+            },
+            "lightning_strike_count": {
+                "name": "Lightning count"
+            },
+            "lightning_strike_count_last_1hr": {
+                "name": "Lightning count last 1 hr"
+            },
+            "lightning_strike_count_last_3hr": {
+                "name": "Lightning count last 3 hr"
+            },
+            "lightning_strike_last_distance": {
+                "name": "Lightning last distance"
+            },
+            "lightning_strike_last_epoch": {
+                "name": "Lightning last strike"
+            },
+            "wind_chill": {
+                "name": "Wind chill"
+            },
+            "wind_direction": {
+                "name": "Wind direction"
+            },
+            "wind_direction_cardinal": {
+                "name": "Wind direction (cardinal)"
+            },
+            "wind_direction_average": {
+                "name": "Wind direction average"
+            },
+            "wind_gust": {
+                "name": "Wind gust"
+            },
+            "wind_lull": {
+                "name": "Wind lull"
+            },
+            "feels_like": {
+                "name": "Feels like"
+            },
+            "heat_index": {
+                "name": "Heat index"
+            },
+            "wet_bulb_temperature": {
+                "name": "Wet bulb temperature"
+            },
+            "wet_bulb_globe_temperature": {
+                "name": "Wet bulb globe temperature"
+            },
+            "illuminance": {
+                "name": "Illuminance"
+            },
+            "station_pressure": {
+                "name": "Air pressure"
+            },
+            "uptime": {
+                "name": "Uptime"
+            },
+            "uv_index": {
+                "name": "UV index"
+            },
+            "vapor_pressure": {
+                "name": "Vapor pressure"
+            },
+            "wind_speed_average": {
+                "name": "Wind speed average"
+            }
+        }
+    }
+}
