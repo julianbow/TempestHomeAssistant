@@ -1,4 +1,4 @@
-"""Unified init for Tempest Test integration supporting both local and cloud modes."""
+"""Unified init for Tempest integration supporting both local and cloud modes."""
 
 from __future__ import annotations
 

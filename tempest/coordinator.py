@@ -1,4 +1,4 @@
-"""Data coordinator for WeatherFlow Cloud Data using OAuth2 PKCE token."""
+"""Data coordinator for Tempest Data using OAuth2 PKCE token."""
 
 from datetime import timedelta
 

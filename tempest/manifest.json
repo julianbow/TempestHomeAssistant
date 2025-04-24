@@ -1,22 +1,12 @@
 {
-    "domain": "tempest_test",
-    "name": "Tempest Test",
-    "documentation": "https://your.documentation.link",
-    "loggers": [
-        "pyweatherflowudp",
-        "weatherflow4py"
-    ],
-    "requirements": [
-        "pyweatherflowudp==1.4.5",
-        "weatherflow4py==1.3.1"
-    ],
-    "dependencies": [
-        "auth"
-    ],
+    "domain": "tempest",
+    "name": "tempest",
+    "codeowners": ["@julianbow"],
     "config_flow": true,
-    "codeowners": [
-        "@julianbow"
-    ],
+    "dependencies": ["auth"],
+    "documentation": "https://www.home-assistant.io/integrations/tempest",
     "iot_class": "cloud_polling",
-    "version": "1.0.0"
-}
+    "loggers": ["pyweatherflowudp", "weatherflow4py"],
+    "quality_scale": "bronze",
+    "requirements": ["pyweatherflowudp==1.4.5", "weatherflow4py==1.3.1"]
+  }

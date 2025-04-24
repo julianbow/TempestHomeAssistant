@@ -1,4 +1,4 @@
-"""Config flow for Tempest Test integration supporting both local and cloud modes with OAuth2 PKCE."""
+"""Config flow for Tempest integration supporting both local and cloud modes with OAuth2 PKCE."""
 
 from __future__ import annotations
 
@@ -6,6 +6,7 @@ import asyncio
 import logging
 from typing import Any
 
+from pyweatherflowudp.client import EVENT_DEVICE_DISCOVERED, WeatherFlowListener
 import voluptuous as vol
 
 from homeassistant import config_entries
@@ -40,8 +41,6 @@ async def _async_can_discover_devices() -> bool:
             fut.set_result(None)
 
     try:
-        from pyweatherflowudp.client import EVENT_DEVICE_DISCOVERED, WeatherFlowListener
-
         async with WeatherFlowListener() as client, asyncio.timeout(10):
             client.on(EVENT_DEVICE_DISCOVERED, _found)
             await fut
@@ -78,7 +77,7 @@ class ConfigFlow(AbstractOAuth2FlowHandler, domain=DOMAIN):
 
     @property
     def logger(self) -> logging.Logger:
-        """Return this flows logger."""
+        """Return this flow’s logger."""
         return _LOGGER
 
     def _data_schema(self) -> vol.Schema:

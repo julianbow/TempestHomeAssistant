@@ -488,7 +488,7 @@ class WeatherFlowSensorEntity(SensorEntity):
         self._attr_unique_id = f"{device.serial_number}_{entity_description.key}"
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, device.serial_number)},
-            manufacturer="Tempest",
+            manufacturer="WeatherFlow",
             model=device.model,
             name=device.serial_number,
             sw_version=device.firmware_revision,

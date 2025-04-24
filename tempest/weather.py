@@ -1,4 +1,4 @@
-"""Support for WeatherFlow Forecast weather service."""
+"""Support for Tempest Forecast weather service."""
 
 from __future__ import annotations
 
