@@ -1,4 +1,4 @@
-"""Support for Tempest Forecast weather service."""
+"""Support for WeatherFlow Forecast weather service."""
 
 from __future__ import annotations
 
@@ -29,10 +29,13 @@ async def async_setup_entry(
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
-    """Add a weather entity from a config_entry."""
-    coordinator: WeatherFlowCloudDataUpdateCoordinator = hass.data[DOMAIN][
-        config_entry.entry_id
-    ]
+    """Add a weather entity from a config_entry, only for cloud mode."""
+    coordinator = hass.data[DOMAIN].get(config_entry.entry_id)
+
+    # If we're in local (UDP) mode, coordinator is a WeatherFlowListener,
+    # which has no .data. Skip in that case.
+    if not isinstance(coordinator, WeatherFlowCloudDataUpdateCoordinator):
+        return
 
     async_add_entities(
         [

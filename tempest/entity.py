@@ -1,4 +1,4 @@
-"""Base entity class for Tempest integration."""
+"""Base entity class for WeatherFlow Cloud integration."""
 
 from weatherflow4py.models.rest.unified import WeatherFlowDataREST
 

@@ -90,64 +90,60 @@ class ConfigFlow(AbstractOAuth2FlowHandler, domain=DOMAIN):
     ) -> config_entries.ConfigFlowResult:
         """Let the user choose between Local or Cloud mode."""
 
-        if user_input is not None:
-            mode = user_input[DATA_SOURCE]
-            if mode == "cloud":
-                # Prevent duplicate cloud entries
-                existing = [
-                    e
-                    for e in self._async_current_entries()
-                    if e.data.get(DATA_SOURCE) == "cloud"
-                ]
-                if existing:
-                    return self.async_abort(reason="single_instance_allowed")
-
-                impl = TempestPkceImplementation(
-                    self.hass,
-                    self.DOMAIN,
-                    CLIENT_ID,
-                    AUTHORIZE_URL,
-                    TOKEN_URL,
-                )
-                self.flow_impl = impl
-                return await self.async_step_auth()
-
-            # Local mode
-            existing = [
-                e
-                for e in self._async_current_entries()
-                if e.data.get(DATA_SOURCE) == "local"
-            ]
-            if existing:
-                return self.async_abort(reason="single_instance_allowed")
-
-            errors: dict[str, str] = {}
-            try:
-                found = await _async_can_discover_devices()
-            except TimeoutError:
-                errors["base"] = ERROR_MSG_CANNOT_CONNECT
-            except OSError:
-                errors["base"] = ERROR_MSG_CANNOT_CONNECT
-            else:
-                if not found:
-                    errors["base"] = ERROR_MSG_NO_DEVICE_FOUND
-
-            if errors:
-                _LOGGER.warning("[STEP_USER] Local discovery errors: %s", errors)
-                return self.async_show_form(
-                    step_id="user", data_schema=self._data_schema(), errors=errors
-                )
-
-            return self.async_create_entry(
-                title="Tempest Station (Local)", data=user_input
+        if user_input is None:
+            return self.async_show_form(
+                step_id="user", data_schema=self._data_schema(), errors={}
             )
 
-        return self.async_show_form(
-            step_id="user", data_schema=self._data_schema(), errors={}
-        )
+        mode = user_input[DATA_SOURCE]
+        # Prevent duplicate entries per mode immediately
+        for entry in self._async_current_entries():
+            if entry.data.get(DATA_SOURCE) == mode:
+                return self.async_abort(reason="already_configured")
+
+        # Register unique_id so HA’s registry also blocks duplicates
+        await self.async_set_unique_id(mode)
+        self._abort_if_unique_id_configured()
+
+        if mode == "cloud":
+            # Begin OAuth flow
+            impl = TempestPkceImplementation(
+                self.hass,
+                self.DOMAIN,
+                CLIENT_ID,
+                AUTHORIZE_URL,
+                TOKEN_URL,
+            )
+            self.flow_impl = impl
+            return await self.async_step_auth()
+
+        # Local mode: test discovery
+        errors: dict[str, str] = {}
+        try:
+            found = await _async_can_discover_devices()
+        except (TimeoutError, OSError):
+            errors["base"] = ERROR_MSG_CANNOT_CONNECT
+        else:
+            if not found:
+                errors["base"] = ERROR_MSG_NO_DEVICE_FOUND
+
+        if errors:
+            _LOGGER.warning("[STEP_USER] Local discovery errors: %s", errors)
+            return self.async_show_form(
+                step_id="user", data_schema=self._data_schema(), errors=errors
+            )
+
+        return self.async_create_entry(title="Tempest Station (Local)", data=user_input)
 
     async def async_oauth_create_entry(
         self, data: dict[str, Any]
     ) -> config_entries.ConfigFlowResult:
         """Create the config entry after OAuth2 completes."""
+        # Prevent duplicate cloud entry at completion
+        for entry in self._async_current_entries():
+            if entry.data.get(DATA_SOURCE) == "cloud":
+                return self.async_abort(reason="already_configured")
+
+        await self.async_set_unique_id("cloud")
+        self._abort_if_unique_id_configured()
         return self.async_create_entry(title="Tempest Station (Cloud)", data=data)

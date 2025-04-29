@@ -5,7 +5,7 @@ import logging
 from homeassistant.config_entries import ConfigEntry
 
 CONF_ACCESS_TOKEN = "access_token"
-DOMAIN = "tempest_test"
+DOMAIN = "tempest"
 
 AUTHORIZE_URL = "https://smartweather.weatherflow.com/authorize.html"
 TOKEN_URL = "https://swd.weatherflow.com/id/oauth2/token"
@@ -28,7 +28,7 @@ def format_dispatch_call(config_entry: ConfigEntry) -> str:
 
 ERROR_MSG_ADDRESS_IN_USE = "address_in_use"
 ERROR_MSG_CANNOT_CONNECT = "cannot_connect"
-ERROR_MSG_NO_DEVICE_FOUND = "no_device_found"
+ERROR_MSG_NO_DEVICE_FOUND = "no_devices_found"
 
 ATTR_ATTRIBUTION = "Weather data delivered by Tempest REST Api"
 

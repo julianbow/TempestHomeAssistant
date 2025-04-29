@@ -1,4 +1,5 @@
-"""Unified init for Tempest integration supporting both local and cloud modes."""
+# custom_components/tempest/__init__.py
+"""Unified init for Tempest Test integration supporting both local and cloud modes."""
 
 from __future__ import annotations
 
@@ -23,7 +24,7 @@ PLATFORMS: list[Platform] = [Platform.SENSOR, Platform.WEATHER]
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up the Tempest Test integration from a config entry."""
-    # Cloud mode if we have a token
+    # ---- CLOUD MODE ----
     if "token" in entry.data:
         if WeatherFlowCloudDataUpdateCoordinator is None:
             LOGGER.error("Cloud coordinator not available")
@@ -31,11 +32,11 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         coordinator = WeatherFlowCloudDataUpdateCoordinator(hass, entry)
         await coordinator.async_config_entry_first_refresh()
         hass.data.setdefault(DOMAIN, {})[entry.entry_id] = coordinator
-        # Forward to whichever platforms are in PLATFORMS
+        # Forward both sensor + weather
         await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
         return True
 
-    # Local (UDP) mode
+    # ---- LOCAL (UDP) MODE ----
     client = WeatherFlowListener()
     entry.runtime_data = client
 
@@ -66,8 +67,9 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         raise ConfigEntryNotReady from ex
 
     hass.data.setdefault(DOMAIN, {})[entry.entry_id] = client
-    # Forward to the same PLATFORMS list, so tests can override it
-    await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
+    # ─── HERE’S THE ONLY CHANGE ────────────────────────────────────────────────
+    # In local mode we only need sensors; skip weather entirely
+    await hass.config_entries.async_forward_entry_setups(entry, [Platform.SENSOR])
 
     entry.async_on_unload(
         hass.bus.async_listen(
