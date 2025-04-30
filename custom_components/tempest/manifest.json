@@ -6,6 +6,7 @@
   "dependencies": ["auth"],
   "documentation": "https://github.com/julianbow/TempestHomeAssistant",
   "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/julianbow/TempestHomeAssistant/issues",
   "loggers": ["pyweatherflowudp", "weatherflow4py"],
   "quality_scale": "bronze",
   "requirements": ["pyweatherflowudp==1.4.5", "weatherflow4py==1.3.1"],
