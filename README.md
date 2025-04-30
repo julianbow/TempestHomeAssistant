@@ -1,10 +1,6 @@
 # Tempest Integration for Home Assistant
 Home Assistant integration for Tempest using local UDP and REST API
 
-[![License][license-shield]](LICENSE)
-[![hacs][hacsbadge]][hacs]
-[![Community Forum][forum-shield]][forum]
-
 This integration adds support for retrieving the Forecast, Current condition and optionally realtime data from your Tempest weather station. **This is a BETA Build and should only be used for testing purposes.**
 
 For this integration you **must own a Tempest weather station**. This integration uses OAuth to hook up your station to the Tempest API.
