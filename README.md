@@ -1,16 +1,9 @@
 # Tempest Integration for Home Assistant
 Home Assistant integration for Tempest using local UDP and REST API
 
-[![GitHub Release][releases-shield]][releases]
-[![GitHub Activity][commits-shield]][commits]
 [![License][license-shield]](LICENSE)
 [![hacs][hacsbadge]][hacs]
-![Project Maintenance][maintenance-shield]
 [![Community Forum][forum-shield]][forum]
-
-<p align="center">
-  <img width="384" height="128" src="https://github.com/briis/weatherflow_forecast/blob/main/images/logo@2x.png?raw=true">
-</p>
 
 This integration adds support for retrieving the Forecast, Current condition and optionally realtime data from your Tempest weather station. **This is a BETA Build and should only be used for testing purposes.**
 
@@ -58,16 +51,3 @@ To add Tempest to your installation, do the following:
 - If you click cloud, it will redirect to tempest website where you will have to authorize the integration.
 
 You can only configure one of each instance.
-
-***
-
-[commits-shield]: https://img.shields.io/github/commit-activity/y/julianbow/tempest.svg?style=flat-square
-[commits]: https://github.com/julianbow/tempest/commits/main
-[hacs]: https://github.com/hacs/integration
-[hacsbadge]: https://img.shields.io/badge/HACS-Default-orange.svg?style=flat-square
-[forum-shield]: https://img.shields.io/badge/community-forum-brightgreen.svg?style=flat-square
-[forum]: https://community.home-assistant.io/
-[license-shield]: https://img.shields.io/github/license/julianbow/tempest.svg?style=flat-square
-[maintenance-shield]: https://img.shields.io/badge/maintainer-Bjarne%20Riis%20%40julianbow-blue.svg?style=flat-square
-[releases-shield]: https://img.shields.io/github/release/julianbow/tempest.svg?style=flat-square
-[releases]: https://github.com/julianbow/tempest/releases
