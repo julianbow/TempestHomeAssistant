@@ -1,10 +1,11 @@
 {
   "domain": "tempest",
   "name": "Tempest",
+  "version": "1.0.0",
   "codeowners": ["@julianbow"],
   "config_flow": true,
   "dependencies": ["auth"],
-  "documentation": "https://www.home-assistant.io/integrations/tempest",
+  "documentation": "https://github.com/julianbow/TempestHomeAssistant",
   "iot_class": "cloud_polling",
   "loggers": ["pyweatherflowudp", "weatherflow4py"],
   "quality_scale": "bronze",
