@@ -58,6 +58,9 @@
             "lightning_strike_last_epoch": {
                 "name": "Lightning last strike"
             },
+            "relative_humidity": {
+                "name": "Relative humidity"
+            },
             "wind_chill": {
                 "name": "Wind chill"
             },
