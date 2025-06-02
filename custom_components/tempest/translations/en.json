@@ -1,33 +1,34 @@
 {
     "config": {
-        "step": {
-            "user": {
-                "description": "Set up a Tempest Forecast Station",
-                "data": {
-                    "api_token": "Personal API token",
-                    "host": "[%key:common::config_flow::data::host%]"
-                },
-                "data_description": {
-                    "host": "Hostname or IP address of your Tempest device."
-                }
-            },
-            "reauth_confirm": {
-                "description": "Reauthenticate with Tempest",
-                "data": {
-                    "api_token": "[%key:component::tempest_test::config::step::user::data::api_token%]"
-                }
-            }
+        "abort": {
+            "already_configured": "Account is already configured",
+            "already_in_progress": "Configuration flow is already in progress",
+            "authorize_url_timeout": "Timeout generating authorize URL.",
+            "missing_configuration": "The component is not configured. Please follow the documentation.",
+            "no_url_available": "No URL available. For information about this error, [check the help section]({docs_url})",
+            "oauth_error": "Received invalid token data.",
+            "oauth_failed": "Error while obtaining access token.",
+            "oauth_timeout": "Timeout resolving OAuth token.",
+            "oauth_unauthorized": "OAuth authorization error while obtaining access token.",
+            "user_rejected_authorize": "Account linking rejected: {error}"
         },
         "error": {
-            "address_in_use": "Unable to open local UDP port 50222.",
-            "cannot_connect": "[%key:common::config_flow::error::cannot_connect%]",
-            "invalid_api_key": "[%key:common::config_flow::error::invalid_api_key%]",
-            "no_device_found": "[%key:common::config_flow::abort::no_devices_found%]"
+            "cannot_connect": "Failed to connect",
+            "invalid_api_key": "Invalid API key"
         },
-        "abort": {
-            "already_configured": "[%key:common::config_flow::abort::already_configured_service%]",
-            "reauth_successful": "[%key:common::config_flow::abort::reauth_successful%]",
-            "single_instance_allowed": "[%key:common::config_flow::abort::single_instance_allowed%]"
+        "step": {
+            "user": {
+                "data": {
+                    "api_token": "Personal API token",
+                    "data_source": "Local or Cloud",
+                    "host": "Host"
+                },
+                "data_description": {
+                    "data_source": "Choose whether to connect locally (UDP) or via the cloud"
+                },
+                "description": "Set up a Tempest Forecast Station",
+                "title": ""
+            }
         }
     },
     "entity": {
@@ -41,50 +42,14 @@
             "battery_voltage": {
                 "name": "Battery voltage"
             },
-            "barometric_pressure": {
-                "name": "Pressure barometric"
+            "brightness": {
+                "name": "Brightness"
             },
-            "sea_level_pressure": {
-                "name": "Pressure sea level"
+            "delta_t": {
+                "name": "Delta T"
             },
             "dew_point": {
                 "name": "Dew point"
-            },
-            "lightning_average_distance": {
-                "name": "Lightning average distance"
-            },
-            "lightning_strike_count": {
-                "name": "Lightning count"
-            },
-            "lightning_strike_count_last_1hr": {
-                "name": "Lightning count last 1 hr"
-            },
-            "lightning_strike_count_last_3hr": {
-                "name": "Lightning count last 3 hr"
-            },
-            "lightning_strike_last_distance": {
-                "name": "Lightning last distance"
-            },
-            "lightning_strike_last_epoch": {
-                "name": "Lightning last strike"
-            },
-            "wind_chill": {
-                "name": "Wind chill"
-            },
-            "wind_direction": {
-                "name": "Wind direction"
-            },
-            "wind_direction_cardinal": {
-                "name": "Wind direction (cardinal)"
-            },
-            "wind_direction_average": {
-                "name": "Wind direction average"
-            },
-            "wind_gust": {
-                "name": "Wind gust"
-            },
-            "wind_lull": {
-                "name": "Wind lull"
             },
             "feels_like": {
                 "name": "Feels like"
@@ -92,29 +57,101 @@
             "heat_index": {
                 "name": "Heat index"
             },
-            "wet_bulb_temperature": {
-                "name": "Wet bulb temperature"
-            },
-            "wet_bulb_globe_temperature": {
-                "name": "Wet bulb globe temperature"
-            },
             "illuminance": {
                 "name": "Illuminance"
             },
+            "lightning_average_distance": {
+                "name": "Lightning Average Distance"
+            },
+            "lightning_count": {
+                "name": "Lightning Count"
+            },
+            "lightning_strike_count": {
+                "name": "Lightning Strike Count"
+            },
+            "lightning_strike_count_last_1hr": {
+                "name": "Lightning count last 1 hr"
+            },
+            "lightning_strike_count_last_3hr": {
+                "name": "Lightning Detected Last 3 hrs"
+            },
+            "lightning_strike_last_distance": {
+                "name": "Lightning Distance Detected"
+            },
+            "lightning_strike_last_epoch": {
+                "name": "Lightning Last Detected"
+            },
+            "precip": {
+                "name": "Rain Intensity"
+            },
+            "precip_accum_local_day_final": {
+                "name": "Rain Accumulation (Today)"
+            },
+            "precip_accum_local_yesterday_final": {
+                "name": "Rain Accumulation (Yesterday)"
+            },
+            "precip_minutes_local_day": {
+                "name": "Rain Duration (Today)"
+            },
+            "precip_minutes_local_yesterday": {
+                "name": "Rain Duration (Yesterday)"
+            },
+            "precipitation_type": {
+                "name": "Precipitation Type"
+            },
+            "pressure_trend": {
+                "name": "Pressure Trend"
+            },
+            "relative_humidity": {
+                "name": "Relative humidity"
+            },
+            "sea_level_pressure": {
+                "name": "Sea Level Pressure"
+            },
+            "solar_radiation": {
+                "name": "Solar Radiation"
+            },
             "station_pressure": {
-                "name": "Air pressure"
+                "name": "Station Pressure"
+            },
+            "timestamp": {
+                "name": "Timestamp"
             },
             "uptime": {
                 "name": "Uptime"
             },
-            "uv_index": {
-                "name": "UV index"
+            "uv": {
+                "name": "UV Index"
             },
-            "vapor_pressure": {
-                "name": "Vapor pressure"
+            "wet_bulb_globe_temperature": {
+                "name": "Wet bulb Globe Temperature"
+            },
+            "wet_bulb_temperature": {
+                "name": "Wet bulb Temperature"
+            },
+            "wind_avg": {
+                "name": "Wind Speed"
+            },
+            "wind_chill": {
+                "name": "Wind Chill"
+            },
+            "wind_direction": {
+                "name": "Wind Direction"
+            },
+            "wind_direction_average": {
+                "name": "Wind Direction Average"
+            },
+            "wind_gust": {
+                "name": "Wind gust"
+            },
+            "wind_lull": {
+                "name": "Wind lull"
+            },
+            "wind_speed": {
+                "name": "Wind Speed"
             },
             "wind_speed_average": {
-                "name": "Wind speed average"
+                "name": "Wind Speed Average"
             }
         }
     }
