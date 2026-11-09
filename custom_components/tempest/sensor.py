@@ -219,7 +219,6 @@ SENSORS: tuple[WeatherFlowSensorEntityDescription, ...] = (
         device_class=SensorDeviceClass.TIMESTAMP,
         entity_category=EntityCategory.DIAGNOSTIC,
         entity_registry_enabled_default=False,
-        state_class=SensorStateClass.MEASUREMENT,
         event_subscriptions=[EVENT_STATUS_UPDATE],
         raw_data_conv_fn=lambda d: d,
     ),

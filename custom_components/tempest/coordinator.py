@@ -44,3 +44,10 @@ class WeatherFlowCloudDataUpdateCoordinator(
             if err.status == 401:
                 raise ConfigEntryAuthFailed(err) from err
             raise UpdateFailed(f"Update failed: {err}") from err
+        except (KeyError, TypeError, ValueError) as err:
+            # weatherflow4py cannot decode the response, e.g. a station that
+            # still lists a removed device without a device_type.
+            raise UpdateFailed(
+                f"Unable to parse WeatherFlow data ({err!r}); "
+                "check your stations in the Tempest app for incomplete devices"
+            ) from err

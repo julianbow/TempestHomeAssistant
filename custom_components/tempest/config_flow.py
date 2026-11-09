@@ -7,6 +7,7 @@ import logging
 from typing import Any
 
 from pyweatherflowudp.client import EVENT_DEVICE_DISCOVERED, WeatherFlowListener
+from pyweatherflowudp.errors import EndpointError
 import voluptuous as vol
 
 from homeassistant import config_entries
@@ -22,6 +23,7 @@ from .const import (
     DATA_SOURCE,
     DATA_SOURCE_OPTIONS,
     DOMAIN,
+    ERROR_MSG_ADDRESS_IN_USE,
     ERROR_MSG_CANNOT_CONNECT,
     ERROR_MSG_NO_DEVICE_FOUND,
     TOKEN_URL,
@@ -47,6 +49,11 @@ async def _async_can_discover_devices() -> bool:
     except TimeoutError:
         _LOGGER.warning("[DISCOVERY] No device discovered within timeout")
         return False
+    except EndpointError:
+        _LOGGER.warning(
+            "[DISCOVERY] Could not open UDP port 50222; it is already in use"
+        )
+        raise
     except Exception:
         _LOGGER.exception("[DISCOVERY] Error during discovery")
         raise
@@ -121,6 +128,10 @@ class ConfigFlow(AbstractOAuth2FlowHandler, domain=DOMAIN):
         errors: dict[str, str] = {}
         try:
             found = await _async_can_discover_devices()
+        except EndpointError:
+            # UDP port 50222 is already bound, e.g. by the core WeatherFlow
+            # integration or another listener on the host.
+            errors["base"] = ERROR_MSG_ADDRESS_IN_USE
         except (TimeoutError, OSError):
             errors["base"] = ERROR_MSG_CANNOT_CONNECT
         else:
