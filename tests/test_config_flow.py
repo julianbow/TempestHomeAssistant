@@ -106,3 +106,24 @@ async def test_duplicate_prevention(
     monkeypatch.setattr(flow2, "async_step_auth", lambda: None)
     result2 = await flow2.async_step_user({DATA_SOURCE: "cloud"})
     assert result2.get("reason") == "single_instance_allowed"
+
+
+@pytest.mark.asyncio
+async def test_local_flow_address_in_use(
+    monkeypatch: pytest.MonkeyPatch, hass: HomeAssistant
+) -> None:
+    """Local branch shows address_in_use when the UDP port is already bound."""
+    from pyweatherflowudp.errors import EndpointError
+
+    async def fake_discover():
+        raise EndpointError("Could not open a local UDP endpoint")
+
+    monkeypatch.setattr(
+        "homeassistant.components.tempest.config_flow._async_can_discover_devices",
+        fake_discover,
+    )
+    flow = ConfigFlow()
+    flow.hass = hass
+    result = await flow.async_step_user({DATA_SOURCE: "local"})
+    assert result["type"] == "form"
+    assert result["errors"]["base"] == "address_in_use"
